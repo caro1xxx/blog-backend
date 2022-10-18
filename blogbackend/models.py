@@ -8,3 +8,12 @@ class Post(models.Model):
     title = models.CharField(max_length=64)
     type = models.TextField(verbose_name="tag")
     content = models.TextField(verbose_name="内容")
+
+
+#blog表
+class PostList(models.Model):
+    post_id = models.CharField(max_length=32,unique=True)
+    update_time = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=64)
+    type = models.TextField(verbose_name="tag")
+    introduce = models.TextField(verbose_name="介绍")

@@ -5,18 +5,17 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from django.core import serializers
-from blogbackend.models import Post
+from blogbackend.models import Post,PostList
 
 
 # code
 
-class PostList(APIView):
+class GetPostList(APIView):
     def get(self,request,*args,**kwargs):
         ret = {'code':200,'msg':'ok'}
         try:
-            ret['post'] = serializers.serialize("json", Post.objects.all().order_by('-update_time'))
+            ret['post'] = serializers.serialize("json", PostList.objects.all().order_by('-update_time'))
             return JsonResponse(ret)
-            # return Response(ret)
         except Exception as e:
             ret['code'] = 500
             ret['msg'] = 'Timeout'
@@ -47,7 +46,7 @@ class PostDetail(APIView):
                 ret['code'] = 404
                 ret['msg'] = 'Post does not exist'
                 return JsonResponse(ret)
-            ret['post'] = serializers.serialize("json", Post.objects.filter(title__icontains=searchkey).order_by('-update_time'))
+            ret['post'] = serializers.serialize("json", PostList.objects.filter(title__icontains=searchkey).order_by('-update_time'))
             return JsonResponse(ret)
         except Exception as e:
             ret['code'] = 500
